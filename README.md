@@ -56,7 +56,7 @@ The optional study time is a dashboard routine cue, **not a background notificat
 
 Deploy `dist/` to an HTTPS static host. No backend, secret or runtime environment variable is needed. Hash routing works without server rewrite rules. All assets use relative paths to support a GitHub Pages project path.
 
-For GitHub Pages, enable Actions as the Pages build source and use the included workflow, which runs logic tests, builds and publishes the static output. For Vercel/Netlify: build `npm run build`, output directory `dist`. For Sites, `.openai/hosting.json` records the selected project and static directory. Publishing must use a version built from the exact pushed commit.
+For GitHub Pages, enable Actions as the Pages build source, set the repository variable `ENABLE_GITHUB_PAGES=true`, and use the included workflow, which runs logic tests, builds and publishes the static output. By default, the workflow runs tests and builds without publishing to Pages. The connected integration can push code but cannot enable Pages or change repository metadata; Sites is the configured public host. For Vercel/Netlify: build `npm run build`, output directory `dist`. For Sites, `.openai/hosting.json` records the selected project and static directory. Publishing must use a version built from the exact pushed commit.
 
 Source repository: https://github.com/shazdtechbro/arabic-journey. The initialized repository history and original copyright notice are preserved.
 
