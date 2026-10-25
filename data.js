@@ -1,35 +1,347 @@
 /* Newly authored educational companion. Source alignment is documented in docs/lesson-map.md. */
-import {units as original} from './starter-data.js';
-const copy=(old,n)=>{const u=structuredClone(original[old-1]);u[0]=n;return u};
-const make=(n,title,a,en,why,rule,aha,examples,...qs)=>[n,title,a,en,why,rule,aha,examples,...qs];
-export const units=[
-copy(1,1),
-make(2,'Point a little farther','ذَلِكَ قَلَمٌ','That is a pen.','Speak about something farther away, and join two ideas.','ذَلِكَ points to a masculine singular thing farther away. وَ means “and” and attaches to the following word in writing. Compare هَذَا (“this”) with ذَلِكَ (“that”). Neither needs an English-style “is” word in a simple present nominal sentence.','Distance changes the pointing word, not the basic sentence pattern.',[['ذَلِكَ بَابٌ','That is a door.'],['هَذَا قَلَمٌ وَذَلِكَ كِتَابٌ','This is a pen and that is a book.'],['مَا ذَلِكَ؟','What is that?']],['Which points farther away?','ذَلِكَ · that','هَذَا · this','مَنْ · who'],['What does وَ do?','Joins ideas: and','Asks where','Shows possession'],['Translate ذَلِكَ بَابٌ.','That is a door.','This is a door.','Where is the door?']),
-copy(2,3),copy(4,4),copy(5,5),copy(6,6),copy(7,7),
-make(8,'This book, this sentence','هَذَا الْقَلَمُ جَدِيدٌ','This pen is new.','Tell the difference between naming something and saying something about it.','هَذَا قَلَمٌ is a complete sentence: “This is a pen.” هَذَا الْقَلَمُ means “this pen”; add a predicate to finish the thought. In هَذَا الْقَلَمُ جَدِيدٌ, جَدِيدٌ supplies the new information. أَمَامَ means in front of; خَلْفَ means behind. The following noun is genitive because it completes an iḍāfah.','The definite article can turn “this is a pen” into the subject “this pen”. Listen for the missing information.',[['هَذَا الْبَيْتُ كَبِيرٌ','This house is big.'],['الْكُرْسِيُّ أَمَامَ الْمَكْتَبِ','The chair is in front of the desk.'],['الْبَيْتُ خَلْفَ الْمَسْجِدِ','The house is behind the mosque.']],['Which is a complete statement?','هَذَا الْبَيْتُ كَبِيرٌ · This house is big','هَذَا الْبَيْتُ · this house','أَمَامَ الْبَيْتِ · in front of the house'],['What does خَلْفَ mean?','Behind','Inside','Who'],['Why is الْمَكْتَبِ genitive after أَمَامَ?','It completes an iḍāfah','It is the subject','It is plural']),
-copy(8,9),copy(10,10),
-make(11,'Read about a home','بَيْتِي قَرِيبٌ مِنَ الْمَسْجِدِ','My house is near the mosque.','Read several connected ideas using the grammar you already know.','Read this short original passage: بَيْتِي قَرِيبٌ مِنَ الْمَسْجِدِ. فِيهِ كِتَابٌ وَقَلَمٌ. أُحِبُّ بَيْتِي. The suffix ـِي means “my”. فِيهِ means “in it” for a masculine noun such as بَيْتٌ; فِيهَا refers back to a feminine noun. أُحِبُّ means “I love / like”. A direct object is accusative; with “my” attached, that ending is not visible.','A suffix lets you keep talking about a place without repeating its name.',[['فِي الْغُرْفَةِ كِتَابٌ','There is a book in the room.'],['فِيهَا كِتَابٌ','There is a book in it (the room).'],['أُحِبُّ اللُّغَةَ الْعَرَبِيَّةَ','I love the Arabic language.']],['What does فِيهِ refer to?','In him / it (masculine)','Their books','Where are you?'],['What does أُحِبُّ mean?','I love / like','I went','He returned'],['Why use فِيهَا for الْغُرْفَةُ?','The room is grammatically feminine','Every place takes it','The room is plural']),
-make(12,'Speaking to her','أَنْتِ طَالِبَةٌ','You are a female student.','Address a woman directly and follow a feminine subject through a sentence.','أَنْتِ addresses one female; أَنْتَ addresses one male. Their possessive endings are ـكِ and ـكَ. ذَهَبَتْ means “she went”, while ذَهَبْتِ means “you (female) went”. These differ in both syllables and meaning, so read the whole form. الَّتِي is the feminine singular relative pronoun, “who / which”; it connects a feminine noun to its description.','The person spoken to and the person spoken about are different grammatical jobs.',[['أَيْنَ كِتَابُكِ؟','Where is your book? (to a woman)'],['ذَهَبَتْ مَرْيَمُ إِلَى الْمَدْرَسَةِ','Maryam went to the school.'],['الطَّالِبَةُ الَّتِي فِي الْفَصْلِ مُجْتَهِدَةٌ','The female student who is in the classroom is hardworking.']],['How do you address one woman?','أَنْتِ · anti','هِيَ · hiya','أَنْتُمْ · antum'],['What does ذَهَبَتْ mean?','She went · dhahabat','You went · dhahabti','We went · dhahabnā'],['Which relative pronoun refers to a feminine singular noun?','الَّتِي · feminine who/which','الَّذِي · masculine who/which','أَيْنَ · where']),
-copy(13,13),copy(14,14),copy(15,15),copy(16,16),
-make(17,'Read the plural correctly','هَذِهِ الْبُيُوتُ كَبِيرَةٌ','These houses are big.','Consolidate non-human plural agreement in descriptions of everyday places.','This chapter continues Lesson 16 rather than adding a new construction. Read: هَذِهِ الْبُيُوتُ كَبِيرَةٌ. هِيَ قَرِيبَةٌ مِنَ الْمَدْرَسَةِ. The houses are plural in meaning, but هَذِهِ, هِيَ and كَبِيرَةٌ follow the beginner feminine-singular agreement pattern. Compare human students: هَؤُلَاءِ طُلَّابٌ. هُمْ مُجْتَهِدُونَ.','First ask “people or things?” before choosing the agreeing word.',[['هَذِهِ أَقْلَامٌ جَدِيدَةٌ','These are new pens.'],['الْمَدَارِسُ قَرِيبَةٌ','The schools are near.'],['هَؤُلَاءِ مُدَرِّسُونَ','These are male teachers.']],['Which fits non-human plural houses?','هَذِهِ · feminine singular demonstrative','هَؤُلَاءِ · human plural demonstrative','أَنَا · I'],['Why is قَرِيبَةٌ used with الْمَدَارِسُ?','Non-human plurals use feminine singular agreement here','There is only one school','It is a masculine human plural'],['Which describes people?','هَؤُلَاءِ مُدَرِّسُونَ','هَذِهِ أَقْلَامٌ','هَذِهِ بُيُوتٌ']),
-copy(12,18),copy(19,19),copy(20,20),
-make(21,'Read, connect, explain','مَدْرَسَتُنَا كَبِيرَةٌ','Our school is big.','Use the earlier rules together in a short reading assessment.','This is a consolidation chapter, not a lesson on clock time. Read this original passage: مَدْرَسَتُنَا كَبِيرَةٌ. فِيهَا ثَلَاثَةُ فُصُولٍ. هَذِهِ كُتُبُ الطُّلَّابِ. نَحْنُ نُحِبُّ مَدْرَسَتَنَا. Identify the possessive suffix, location, number construction and non-human plural agreement separately. نُحِبُّ means “we love”.','Longer reading is a sequence of small decisions you already know how to make.',[['مَدْرَسَتُنَا كَبِيرَةٌ','Our school is big.'],['فِيهَا ثَلَاثَةُ فُصُولٍ','There are three classrooms in it.'],['نَحْنُ نُحِبُّ مَدْرَسَتَنَا','We love our school.']],['What does ـنَا mean in مَدْرَسَتُنَا?','Our','Their','My'],['Why is ثَلَاثَةُ used with فُصُولٍ?','The singular فَصْلٌ is masculine','The singular is feminine','All plurals use the same number form'],['What does نُحِبُّ mean?','We love','She went','You are']),
-make(22,'Recognise the diptote','أَحْمَدُ طَالِبٌ','Ahmad is a student.','Recognise nouns that do not take tanwīn before studying their genitive endings.','An ordinary noun can take tanwīn when no other rule removes it: كِتَابٌ. A diptote, الْمَمْنُوعُ مِنَ الصَّرْفِ, does not take tanwīn. Book 1 groups include many feminine names, masculine names ending in ة or ان, certain foreign names, أَفْعَلُ names and adjectives, فَعْلَانُ adjectives, and certain broken-plural patterns such as مَسَاجِدُ and مَفَاتِيحُ. Not every name or broken plural is a diptote. Learn a word’s pattern with its vocabulary.','No tanwīn is a clue, not a diagnosis: الْكِتَابُ also has no tanwīn, but is not a diptote.',[['أَحْمَدُ طَالِبٌ','Ahmad is a student.'],['الْقَلَمُ أَحْمَرُ','The pen is red.'],['هَذِهِ مَفَاتِيحُ','These are keys.']],['Which is a diptote?','أَحْمَدُ · Ahmad','كِتَابٌ · a book','بَيْتٌ · a house'],['Why does الْكِتَابُ have no tanwīn?','Because it has the definite article','Because every book is a diptote','Because it is feminine'],['Which plural pattern is a diptote here?','مَفَاتِيحُ · keys','كُتُبٌ · books','بُيُوتٌ · houses']),
-make(23,'Diptotes in the genitive','مِنْ أَحْمَدَ','From Ahmad','Explain the ending that looks like an exception to your earlier preposition rule.','A preposition still makes its noun genitive. Ordinary triptotes normally show kasrah: مِنْ بِلَالٍ. A diptote without الْـ and not serving as the first term of an iḍāfah shows fatḥah instead: مِنْ أَحْمَدَ. The same applies when it is the second term: كِتَابُ أَحْمَدَ. It remains genitive even though the visible sign is ـَ. A diptote with الْـ, or serving as the first term of an iḍāfah, takes kasrah in the genitive: فِي الْمَسَاجِدِ and فِي مَسَاجِدِ الْمَدِينَةِ. This last comparison clarifies the exception; it is not a reason to treat all names alike.','Case is the grammatical job; the final vowel is its sign. One job can have different signs.',[['مِنْ بِلَالٍ','From Bilal (ordinary triptote)'],['مِنْ أَحْمَدَ','From Ahmad (diptote)'],['فِي الْمَسَاجِدِ','In the mosques (with the definite article)']],['What is the case of أَحْمَدَ after مِنْ?','Genitive, marked by fatḥah','Accusative because every fatḥah is accusative','Nominative'],['Which context restores kasrah for a diptote?','Having الْـ or being the first term of iḍāfah','Being any proper name','Being after every preposition without exception'],['Explain كِتَابُ أَحْمَدَ.','Ahmad is the genitive possessor; its diptote sign is fatḥah','Ahmad is the subject','The book is plural'])
+import { units as original } from "./starter-data.js";
+const copy = (old, n) => {
+  const u = structuredClone(original[old - 1]);
+  u[0] = n;
+  return u;
+};
+const make = (n, title, a, en, why, rule, aha, examples, ...qs) => [
+  n,
+  title,
+  a,
+  en,
+  why,
+  rule,
+  aha,
+  examples,
+  ...qs,
+];
+export const units = [
+  copy(1, 1),
+  make(
+    2,
+    "Point a little farther",
+    "ذَلِكَ قَلَمٌ",
+    "That is a pen.",
+    "Speak about something farther away, and join two ideas.",
+    "ذَلِكَ points to a masculine singular thing farther away. وَ means “and” and attaches to the following word in writing. Compare هَذَا (“this”) with ذَلِكَ (“that”). Neither needs an English-style “is” word in a simple present nominal sentence.",
+    "Distance changes the pointing word, not the basic sentence pattern.",
+    [
+      ["ذَلِكَ بَابٌ", "That is a door."],
+      ["هَذَا قَلَمٌ وَذَلِكَ كِتَابٌ", "This is a pen and that is a book."],
+      ["مَا ذَلِكَ؟", "What is that?"],
+    ],
+    [
+      "Which points farther away?",
+      "ذَلِكَ · that",
+      "هَذَا · this",
+      "مَنْ · who",
+    ],
+    ["What does وَ do?", "Joins ideas: and", "Asks where", "Shows possession"],
+    [
+      "Translate ذَلِكَ بَابٌ.",
+      "That is a door.",
+      "This is a door.",
+      "Where is the door?",
+    ],
+  ),
+  copy(2, 3),
+  copy(4, 4),
+  copy(5, 5),
+  copy(6, 6),
+  copy(7, 7),
+  make(
+    8,
+    "This book, this sentence",
+    "هَذَا الْقَلَمُ جَدِيدٌ",
+    "This pen is new.",
+    "Tell the difference between naming something and saying something about it.",
+    "هَذَا قَلَمٌ is a complete sentence: “This is a pen.” هَذَا الْقَلَمُ means “this pen”; add a predicate to finish the thought. In هَذَا الْقَلَمُ جَدِيدٌ, جَدِيدٌ supplies the new information. أَمَامَ means in front of; خَلْفَ means behind. The following noun is genitive because it completes an iḍāfah.",
+    "The definite article can turn “this is a pen” into the subject “this pen”. Listen for the missing information.",
+    [
+      ["هَذَا الْبَيْتُ كَبِيرٌ", "This house is big."],
+      [
+        "الْكُرْسِيُّ أَمَامَ الْمَكْتَبِ",
+        "The chair is in front of the desk.",
+      ],
+      ["الْبَيْتُ خَلْفَ الْمَسْجِدِ", "The house is behind the mosque."],
+    ],
+    [
+      "Which is a complete statement?",
+      "هَذَا الْبَيْتُ كَبِيرٌ · This house is big",
+      "هَذَا الْبَيْتُ · this house",
+      "أَمَامَ الْبَيْتِ · in front of the house",
+    ],
+    ["What does خَلْفَ mean?", "Behind", "Inside", "Who"],
+    [
+      "Why is الْمَكْتَبِ genitive after أَمَامَ?",
+      "It completes an iḍāfah",
+      "It is the subject",
+      "It is plural",
+    ],
+  ),
+  copy(8, 9),
+  copy(10, 10),
+  make(
+    11,
+    "Read about a home",
+    "بَيْتِي قَرِيبٌ مِنَ الْمَسْجِدِ",
+    "My house is near the mosque.",
+    "Read several connected ideas using the grammar you already know.",
+    "Read this short original passage: بَيْتِي قَرِيبٌ مِنَ الْمَسْجِدِ. فِيهِ كِتَابٌ وَقَلَمٌ. أُحِبُّ بَيْتِي. The suffix ـِي means “my”. فِيهِ means “in it” for a masculine noun such as بَيْتٌ; فِيهَا refers back to a feminine noun. أُحِبُّ means “I love / like”. A direct object is accusative; with “my” attached, that ending is not visible.",
+    "A suffix lets you keep talking about a place without repeating its name.",
+    [
+      ["فِي الْغُرْفَةِ كِتَابٌ", "There is a book in the room."],
+      ["فِيهَا كِتَابٌ", "There is a book in it (the room)."],
+      ["أُحِبُّ اللُّغَةَ الْعَرَبِيَّةَ", "I love the Arabic language."],
+    ],
+    [
+      "What does فِيهِ refer to?",
+      "In him / it (masculine)",
+      "Their books",
+      "Where are you?",
+    ],
+    ["What does أُحِبُّ mean?", "I love / like", "I went", "He returned"],
+    [
+      "Why use فِيهَا for الْغُرْفَةُ?",
+      "The room is grammatically feminine",
+      "Every place takes it",
+      "The room is plural",
+    ],
+  ),
+  make(
+    12,
+    "Speaking to her",
+    "أَنْتِ طَالِبَةٌ",
+    "You are a female student.",
+    "Address a woman directly and follow a feminine subject through a sentence.",
+    "أَنْتِ addresses one female; أَنْتَ addresses one male. Their possessive endings are ـكِ and ـكَ. ذَهَبَتْ means “she went”, while ذَهَبْتِ means “you (female) went”. These differ in both syllables and meaning, so read the whole form. الَّتِي is the feminine singular relative pronoun, “who / which”; it connects a feminine noun to its description.",
+    "The person spoken to and the person spoken about are different grammatical jobs.",
+    [
+      ["أَيْنَ كِتَابُكِ؟", "Where is your book? (to a woman)"],
+      ["ذَهَبَتْ مَرْيَمُ إِلَى الْمَدْرَسَةِ", "Maryam went to the school."],
+      [
+        "الطَّالِبَةُ الَّتِي فِي الْفَصْلِ مُجْتَهِدَةٌ",
+        "The female student who is in the classroom is hardworking.",
+      ],
+    ],
+    [
+      "How do you address one woman?",
+      "أَنْتِ · anti",
+      "هِيَ · hiya",
+      "أَنْتُمْ · antum",
+    ],
+    [
+      "What does ذَهَبَتْ mean?",
+      "She went · dhahabat",
+      "You went · dhahabti",
+      "We went · dhahabnā",
+    ],
+    [
+      "Which relative pronoun refers to a feminine singular noun?",
+      "الَّتِي · feminine who/which",
+      "الَّذِي · masculine who/which",
+      "أَيْنَ · where",
+    ],
+  ),
+  copy(13, 13),
+  copy(14, 14),
+  copy(15, 15),
+  copy(16, 16),
+  make(
+    17,
+    "Read the plural correctly",
+    "هَذِهِ الْبُيُوتُ كَبِيرَةٌ",
+    "These houses are big.",
+    "Consolidate non-human plural agreement in descriptions of everyday places.",
+    "This chapter continues Lesson 16 rather than adding a new construction. Read: هَذِهِ الْبُيُوتُ كَبِيرَةٌ. هِيَ قَرِيبَةٌ مِنَ الْمَدْرَسَةِ. The houses are plural in meaning, but هَذِهِ, هِيَ and كَبِيرَةٌ follow the beginner feminine-singular agreement pattern. Compare human students: هَؤُلَاءِ طُلَّابٌ. هُمْ مُجْتَهِدُونَ.",
+    "First ask “people or things?” before choosing the agreeing word.",
+    [
+      ["هَذِهِ أَقْلَامٌ جَدِيدَةٌ", "These are new pens."],
+      ["الْمَدَارِسُ قَرِيبَةٌ", "The schools are near."],
+      ["هَؤُلَاءِ مُدَرِّسُونَ", "These are male teachers."],
+    ],
+    [
+      "Which fits non-human plural houses?",
+      "هَذِهِ · feminine singular demonstrative",
+      "هَؤُلَاءِ · human plural demonstrative",
+      "أَنَا · I",
+    ],
+    [
+      "Why is قَرِيبَةٌ used with الْمَدَارِسُ?",
+      "Non-human plurals use feminine singular agreement here",
+      "There is only one school",
+      "It is a masculine human plural",
+    ],
+    [
+      "Which describes people?",
+      "هَؤُلَاءِ مُدَرِّسُونَ",
+      "هَذِهِ أَقْلَامٌ",
+      "هَذِهِ بُيُوتٌ",
+    ],
+  ),
+  copy(12, 18),
+  copy(19, 19),
+  copy(20, 20),
+  make(
+    21,
+    "Read, connect, explain",
+    "مَدْرَسَتُنَا كَبِيرَةٌ",
+    "Our school is big.",
+    "Use the earlier rules together in a short reading assessment.",
+    "This is a consolidation chapter, not a lesson on clock time. Read this original passage: مَدْرَسَتُنَا كَبِيرَةٌ. فِيهَا ثَلَاثَةُ فُصُولٍ. هَذِهِ كُتُبُ الطُّلَّابِ. نَحْنُ نُحِبُّ مَدْرَسَتَنَا. Identify the possessive suffix, location, number construction and non-human plural agreement separately. نُحِبُّ means “we love”.",
+    "Longer reading is a sequence of small decisions you already know how to make.",
+    [
+      ["مَدْرَسَتُنَا كَبِيرَةٌ", "Our school is big."],
+      ["فِيهَا ثَلَاثَةُ فُصُولٍ", "There are three classrooms in it."],
+      ["نَحْنُ نُحِبُّ مَدْرَسَتَنَا", "We love our school."],
+    ],
+    ["What does ـنَا mean in مَدْرَسَتُنَا?", "Our", "Their", "My"],
+    [
+      "Why is ثَلَاثَةُ used with فُصُولٍ?",
+      "The singular فَصْلٌ is masculine",
+      "The singular is feminine",
+      "All plurals use the same number form",
+    ],
+    ["What does نُحِبُّ mean?", "We love", "She went", "You are"],
+  ),
+  make(
+    22,
+    "Recognise the diptote",
+    "أَحْمَدُ طَالِبٌ",
+    "Ahmad is a student.",
+    "Recognise nouns that do not take tanwīn before studying their genitive endings.",
+    "An ordinary noun can take tanwīn when no other rule removes it: كِتَابٌ. A diptote, الْمَمْنُوعُ مِنَ الصَّرْفِ, does not take tanwīn. Book 1 groups include many feminine names, masculine names ending in ة or ان, certain foreign names, أَفْعَلُ names and adjectives, فَعْلَانُ adjectives, and certain broken-plural patterns such as مَسَاجِدُ and مَفَاتِيحُ. Not every name or broken plural is a diptote. Learn a word’s pattern with its vocabulary.",
+    "No tanwīn is a clue, not a diagnosis: الْكِتَابُ also has no tanwīn, but is not a diptote.",
+    [
+      ["أَحْمَدُ طَالِبٌ", "Ahmad is a student."],
+      ["الْقَلَمُ أَحْمَرُ", "The pen is red."],
+      ["هَذِهِ مَفَاتِيحُ", "These are keys."],
+    ],
+    [
+      "Which is a diptote?",
+      "أَحْمَدُ · Ahmad",
+      "كِتَابٌ · a book",
+      "بَيْتٌ · a house",
+    ],
+    [
+      "Why does الْكِتَابُ have no tanwīn?",
+      "Because it has the definite article",
+      "Because every book is a diptote",
+      "Because it is feminine",
+    ],
+    [
+      "Which plural pattern is a diptote here?",
+      "مَفَاتِيحُ · keys",
+      "كُتُبٌ · books",
+      "بُيُوتٌ · houses",
+    ],
+  ),
+  make(
+    23,
+    "Diptotes in the genitive",
+    "مِنْ أَحْمَدَ",
+    "From Ahmad",
+    "Explain the ending that looks like an exception to your earlier preposition rule.",
+    "A preposition still makes its noun genitive. Ordinary triptotes normally show kasrah: مِنْ بِلَالٍ. A diptote without الْـ and not serving as the first term of an iḍāfah shows fatḥah instead: مِنْ أَحْمَدَ. The same applies when it is the second term: كِتَابُ أَحْمَدَ. It remains genitive even though the visible sign is ـَ. A diptote with الْـ, or serving as the first term of an iḍāfah, takes kasrah in the genitive: فِي الْمَسَاجِدِ and فِي مَسَاجِدِ الْمَدِينَةِ. This last comparison clarifies the exception; it is not a reason to treat all names alike.",
+    "Case is the grammatical job; the final vowel is its sign. One job can have different signs.",
+    [
+      ["مِنْ بِلَالٍ", "From Bilal (ordinary triptote)"],
+      ["مِنْ أَحْمَدَ", "From Ahmad (diptote)"],
+      ["فِي الْمَسَاجِدِ", "In the mosques (with the definite article)"],
+    ],
+    [
+      "What is the case of أَحْمَدَ after مِنْ?",
+      "Genitive, marked by fatḥah",
+      "Accusative because every fatḥah is accusative",
+      "Nominative",
+    ],
+    [
+      "Which context restores kasrah for a diptote?",
+      "Having الْـ or being the first term of iḍāfah",
+      "Being any proper name",
+      "Being after every preposition without exception",
+    ],
+    [
+      "Explain كِتَابُ أَحْمَدَ.",
+      "Ahmad is the genitive possessor; its diptote sign is fatḥah",
+      "Ahmad is the subject",
+      "The book is plural",
+    ],
+  ),
 ];
 // Expand the retained notes where the verified chapters include additional constructions.
-units[0][5]+=' أَ placed before a statement asks a yes/no question. مَا asks “what?”, مَنْ asks “who?”, نَعَمْ means yes, and لَا means no. Start by learning to recognise these sentence shapes; you do not need to memorise technical terms today.';
-units[2][5]+=' With sun letters, the ل of الْـ is written but assimilates in speech: الشَّمْسُ is ash-shamsu. With moon letters it is pronounced: الْقَمَرُ is al-qamaru. A definite subject plus an indefinite predicate forms a statement: الْبَيْتُ كَبِيرٌ, “The house is big.”';
-units[3][5]+=' إِلَى means “to”. هُوَ refers to a masculine noun and هِيَ to a feminine noun, including things. أَنَا means I and أَنْتَ means you (one male). ذَهَبَ means he went and خَرَجَ means he went out. Proper names can have tanwīn without meaning “a”: بِلَالٌ is simply Bilal.';
-units[4][5]+=' The first term takes neither الْـ nor tanwīn in this basic construction; its case depends on its role in the larger sentence. تَحْتَ (“under”) also has a genitive complement. يَا is used to call someone: يَا بِلَالُ. With a definite owner, the whole iḍāfah is definite.';
-units[5][5]+=' لِـ means “for / belonging to”: لِلطَّالِبِ means “belonging to the student”. لِمَنْ means “whose / belonging to whom?”. Learn gender with vocabulary: يَدٌ, a hand, is feminine even without ة. أَيْضًا means also, and جِدًّا means very.';
-units[8][5]+=' الَّذِي means “who / which” referring to a masculine singular noun: الْبَيْتُ الَّذِي أَمَامَ الْمَسْجِدِ, “the house which is in front of the mosque”. مَعَ means “with” and has a genitive complement. Adjectives such as كَسْلَانُ (“lazy”) do not take tanwīn; the diptote chapters explain this later.';
-units[9][5]+=' كِتَابُهَا means her book. أَبُوكَ (“your father”) and أَخُوكَ (“your brother”) have a special long ū in this nominative construction, unlike أَبِي and أَخِي. ذَهَبْتَ means you (male) went; ذَهَبْتُ means I went. لِي means “I have / belonging to me”; use it for relationships, as in لِي أَخٌ. مَعَ means with, عِنْدَ can refer to being at someone’s place, and مَا can negate: مَا عِنْدِي قَلَمٌ.';
-units[12][5]+=' هَؤُلَاءِ is “these” for people of either gender; أُولَئِكَ is “those”. هُمْ means they (male group), هُنَّ they (female group); ـهُمْ and ـهُنَّ are the corresponding possessive suffixes. ذَهَبُوا means they (male group) went, while ذَهَبْنَ means they (female group) went. Learn the extra syllables, not only a tiny final mark.';
-units[13][5]+=' أَنْتُمْ addresses a male or mixed group; ـكُمْ means your, and ـنَا means our. ذَهَبْتُمْ means you (group) went, while ذَهَبْنَا means we went. An adjective describing a definite iḍāfah follows the completed phrase: بَيْتُ الْمُدَرِّسِ الْجَدِيدُ, “the teacher’s new house”. أَيُّ means which and changes case with its role; مِنْ أَيِّ بَلَدٍ؟ asks “from which country?”. Many foreign names are diptotes, but short names such as نُوحٌ can take tanwīn.';
-units[14][5]+=' ذَهَبْتُنَّ means you (female group) went. قَبْلَ means before and بَعْدَ after; their following noun is genitive as the second term of iḍāfah: بَعْدَ الدَّرْسِ. رَجَعَ means he returned.';
-units[17][5]='Arabic has singular, dual (exactly two) and plural. The nominative dual ends in ـَانِ: قَلَمٌ → قَلَمَانِ. هَذَانِ points to two masculine things and هَاتَانِ to two feminine things; هُمَا means they two. An adjective agrees in the dual: قَلَمَانِ جَدِيدَانِ. كَمْ asks “how many?” and is followed here by a singular accusative noun: كَمْ كِتَابًا؟. The supporting alif in كِتَابًا is written but not an additional spoken syllable; ة does not take that extra alif: كَمْ سَيَّارَةً؟.';
-export const reviewDays=[['Vocabulary, retrieved','Recall objects, people, places and singular–plural pairs.'],['Build a sentence','Distinguish phrases, complete nominal sentences and descriptions.'],['People and pointing','Retrieve demonstratives, personal pronouns and possessive suffixes.'],['Gender and number','Apply human and non-human plural agreement, duals and number constructions.'],['The reason for the ending','Combine prepositions, iḍāfah and diptote genitives.'],['Read the whole picture','Mixed reading, ownership, agreement and numerical phrases.'],['Your foundation assessment','A cumulative assessment across all 23 lessons. Review errors and retry when ready.']];
-export const sourceLinks=[{label:'Author’s website · Madinah Book 1 teaching resources',url:'https://drvaniya.com/?page_id=2141'},{label:'Book 1 · authorized Arabic textbook on the author’s website',url:'https://drvaniya.com/wp-content/uploads/2019/09/%D8%AF%D8%B1%D9%88%D8%B3-%D8%A7%D9%84%D9%84%D8%BA%D8%A9-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9-Madinah-Book-1.pdf'},{label:'Institute of the Language of the Qur’an · textbook, English key & solutions',url:'https://www.lqtoronto.com/madinaarabic.html'}];
+units[0][5] +=
+  " أَ placed before a statement asks a yes/no question. مَا asks “what?”, مَنْ asks “who?”, نَعَمْ means yes, and لَا means no. Start by learning to recognise these sentence shapes; you do not need to memorise technical terms today.";
+units[2][5] +=
+  " With sun letters, the ل of الْـ is written but assimilates in speech: الشَّمْسُ is ash-shamsu. With moon letters it is pronounced: الْقَمَرُ is al-qamaru. A definite subject plus an indefinite predicate forms a statement: الْبَيْتُ كَبِيرٌ, “The house is big.”";
+units[3][5] +=
+  " إِلَى means “to”. هُوَ refers to a masculine noun and هِيَ to a feminine noun, including things. أَنَا means I and أَنْتَ means you (one male). ذَهَبَ means he went and خَرَجَ means he went out. Proper names can have tanwīn without meaning “a”: بِلَالٌ is simply Bilal.";
+units[4][5] +=
+  " The first term takes neither الْـ nor tanwīn in this basic construction; its case depends on its role in the larger sentence. تَحْتَ (“under”) also has a genitive complement. يَا is used to call someone: يَا بِلَالُ. With a definite owner, the whole iḍāfah is definite.";
+units[5][5] +=
+  " لِـ means “for / belonging to”: لِلطَّالِبِ means “belonging to the student”. لِمَنْ means “whose / belonging to whom?”. Learn gender with vocabulary: يَدٌ, a hand, is feminine even without ة. أَيْضًا means also, and جِدًّا means very.";
+units[8][5] +=
+  " الَّذِي means “who / which” referring to a masculine singular noun: الْبَيْتُ الَّذِي أَمَامَ الْمَسْجِدِ, “the house which is in front of the mosque”. مَعَ means “with” and has a genitive complement. Adjectives such as كَسْلَانُ (“lazy”) do not take tanwīn; the diptote chapters explain this later.";
+units[9][5] +=
+  " كِتَابُهَا means her book. أَبُوكَ (“your father”) and أَخُوكَ (“your brother”) have a special long ū in this nominative construction, unlike أَبِي and أَخِي. ذَهَبْتَ means you (male) went; ذَهَبْتُ means I went. لِي means “I have / belonging to me”; use it for relationships, as in لِي أَخٌ. مَعَ means with, عِنْدَ can refer to being at someone’s place, and مَا can negate: مَا عِنْدِي قَلَمٌ.";
+units[12][5] +=
+  " هَؤُلَاءِ is “these” for people of either gender; أُولَئِكَ is “those”. هُمْ means they (male group), هُنَّ they (female group); ـهُمْ and ـهُنَّ are the corresponding possessive suffixes. ذَهَبُوا means they (male group) went, while ذَهَبْنَ means they (female group) went. Learn the extra syllables, not only a tiny final mark.";
+units[13][5] +=
+  " أَنْتُمْ addresses a male or mixed group; ـكُمْ means your, and ـنَا means our. ذَهَبْتُمْ means you (group) went, while ذَهَبْنَا means we went. An adjective describing a definite iḍāfah follows the completed phrase: بَيْتُ الْمُدَرِّسِ الْجَدِيدُ, “the teacher’s new house”. أَيُّ means which and changes case with its role; مِنْ أَيِّ بَلَدٍ؟ asks “from which country?”. Many foreign names are diptotes, but short names such as نُوحٌ can take tanwīn.";
+units[14][5] +=
+  " ذَهَبْتُنَّ means you (female group) went. قَبْلَ means before and بَعْدَ after; their following noun is genitive as the second term of iḍāfah: بَعْدَ الدَّرْسِ. رَجَعَ means he returned.";
+units[17][5] =
+  "Arabic has singular, dual (exactly two) and plural. The nominative dual ends in ـَانِ: قَلَمٌ → قَلَمَانِ. هَذَانِ points to two masculine things and هَاتَانِ to two feminine things; هُمَا means they two. An adjective agrees in the dual: قَلَمَانِ جَدِيدَانِ. كَمْ asks “how many?” and is followed here by a singular accusative noun: كَمْ كِتَابًا؟. The supporting alif in كِتَابًا is written but not an additional spoken syllable; ة does not take that extra alif: كَمْ سَيَّارَةً؟.";
+export const reviewDays = [
+  [
+    "Vocabulary, retrieved",
+    "Recall objects, people, places and singular–plural pairs.",
+  ],
+  [
+    "Build a sentence",
+    "Distinguish phrases, complete nominal sentences and descriptions.",
+  ],
+  [
+    "People and pointing",
+    "Retrieve demonstratives, personal pronouns and possessive suffixes.",
+  ],
+  [
+    "Gender and number",
+    "Apply human and non-human plural agreement, duals and number constructions.",
+  ],
+  [
+    "The reason for the ending",
+    "Combine prepositions, iḍāfah and diptote genitives.",
+  ],
+  [
+    "Read the whole picture",
+    "Mixed reading, ownership, agreement and numerical phrases.",
+  ],
+  [
+    "Your foundation assessment",
+    "A cumulative assessment across all 23 lessons. Review errors and retry when ready.",
+  ],
+];
+export const sourceLinks = [
+  {
+    label: "Author’s website · Madinah Book 1 teaching resources",
+    url: "https://drvaniya.com/?page_id=2141",
+  },
+  {
+    label: "Book 1 · authorized Arabic textbook on the author’s website",
+    url: "https://drvaniya.com/wp-content/uploads/2019/09/%D8%AF%D8%B1%D9%88%D8%B3-%D8%A7%D9%84%D9%84%D8%BA%D8%A9-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9-Madinah-Book-1.pdf",
+  },
+  {
+    label:
+      "Institute of the Language of the Qur’an · textbook, English key & solutions",
+    url: "https://www.lqtoronto.com/madinaarabic.html",
+  },
+];
 
-units[3][10]=["Which ending follows فِي in فِي الْبَيْتِ?","Kasrah · ـِ · genitive","Ḍammah · ـُ · nominative","Tanwīn ḍammah · ـٌ · indefinite nominative"];
+units[3][10] = [
+  "Which ending follows فِي in فِي الْبَيْتِ?",
+  "Kasrah · ـِ · genitive",
+  "Ḍammah · ـُ · nominative",
+  "Tanwīn ḍammah · ـٌ · indefinite nominative",
+];
