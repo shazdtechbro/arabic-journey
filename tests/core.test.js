@@ -26,11 +26,12 @@ describe("learning integrity", () => {
     expect(s.activity).toEqual({ "2026-10-01": 2 });
     expect(s.attempts).toHaveLength(3);
   });
-  it("does not complete failed quizzes or skip days", () => {
+  it("does not complete failed quizzes and permits studying out of order", () => {
     expect(
       record(blank(), 1, { score: 0, total: 5, passed: false }).completed,
     ).toEqual({});
-    expect(() => record(blank(), 3, pass)).toThrow();
+    expect(record(blank(), 23, pass).completed[23]).toBeTruthy();
+    expect(() => record(blank(), 31, pass)).toThrow();
   });
   it("handles missed days, yesterday grace, and future dates", () => {
     const a = { "2026-10-01": 2, "2026-10-02": 1, "2026-10-04": 1 };

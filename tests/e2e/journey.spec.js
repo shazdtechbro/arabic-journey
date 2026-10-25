@@ -1,6 +1,8 @@
 import { test, expect } from "@playwright/test";
 import { questions } from "../../assessment.js";
 async function answer(page, n, wrong = false) {
+  if (n <= 23)
+    await page.getByRole("tab", { name: "Concepts & assessment" }).click();
   for (const [i, q] of questions(n).entries()) {
     if (q.type === "fill")
       await page.locator(`#answer-${i}`).fill(wrong ? "wrong" : q.correct);
@@ -35,6 +37,7 @@ test("complete journey, retries, persistence, graduation, mobile, offline", asyn
     .click();
   await expect(page.getByText(/As-salāmu/)).toBeVisible();
   await page.locator('[data-day="1"]').first().click();
+  await page.getByRole("tab", { name: "Concepts & assessment" }).click();
   await page.locator('[data-word="0"]').click();
   await page.locator('[data-word="1"]').click();
   await expect(page.locator("#word-feedback")).toContainText("Correct");
@@ -46,12 +49,12 @@ test("complete journey, retries, persistence, graduation, mobile, offline", asyn
   await page.locator('[data-action="grade"]').click();
   await expect(page.locator("#quiz")).toContainText("5 / 5");
   await page.reload();
-  await expect(page.locator(".lessonhead")).toContainText("DAY 01");
+  await expect(page.locator(".lessonhead").first()).toContainText("LESSON 1");
   await page.locator('[data-view="dashboard"]').first().click();
   for (let n = 2; n <= 30; n++) {
     await page.locator(`[data-day="${n}"]`).first().click();
-    await expect(page.locator(".lessonhead")).toContainText(
-      "DAY " + String(n).padStart(2, "0"),
+    await expect(page.locator(".lessonhead").first()).toContainText(
+      n <= 23 ? "LESSON " + n : "DAY " + String(n).padStart(2, "0"),
     );
     await answer(page, n);
     await page.locator('[data-action="grade"]').click();
@@ -114,13 +117,15 @@ test("complete journey, retries, persistence, graduation, mobile, offline", asyn
   await context.setOffline(false);
   expect(errors).toEqual([]);
 });
-test("keyboard, locking and navigation", async ({ page }) => {
+test("keyboard, open lessons and navigation", async ({ page }) => {
   await page.goto("/");
   await page.keyboard.press("Tab");
   await expect(page.locator(".skip")).toBeFocused();
   await page.locator('[data-view="learn"]').first().click();
-  await expect(page.locator('[data-day="2"]')).toBeDisabled();
+  await expect(page.locator('[data-day="2"]')).toBeEnabled();
+  await expect(page.locator('[data-day="30"]')).toBeEnabled();
   await page.locator('[data-day="1"]').click();
+  await page.getByRole("tab", { name: "Concepts & assessment" }).click();
   await expect(page.locator('[data-action="grade"]')).toBeDisabled();
   await page.goBack();
   await expect(

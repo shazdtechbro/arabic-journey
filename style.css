@@ -1294,3 +1294,541 @@ caption {
 .phrase .meaning {
   color: #46564b;
 }
+/* Page-by-page study, with a calm reading rhythm. */
+.learning-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid #dde5df;
+  margin: 0 0 28px;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 4;
+  padding: 12px 0;
+}
+.learning-tabs button {
+  border: 0;
+  background: #f3f5f3;
+  border-radius: 9px;
+  padding: 13px 19px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #46554b;
+}
+.learning-tabs button[aria-selected="true"] {
+  background: #176f43;
+  color: #fff;
+}
+.concept-heading {
+  margin-top: 26px;
+}
+.concept-heading h1 {
+  font-size: 26px;
+}
+.page-study {
+  border: 1px solid #dfe7e1;
+  border-radius: 18px;
+  padding: clamp(20px, 4vw, 38px);
+  background: #fff;
+}
+.page-study-head {
+  border-bottom: 1px solid #e7ece8;
+  padding-bottom: 24px;
+  margin-bottom: 30px;
+}
+.page-study-head h2 {
+  font-size: 30px;
+  letter-spacing: -0.8px;
+  margin: 10px 0;
+}
+.page-study p {
+  font-size: 15px;
+  line-height: 1.85;
+  color: #46554b;
+}
+.page-step {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 16px;
+  margin: 30px 0;
+}
+.step-number {
+  background: #edf5ef;
+  color: #17643c;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  font: 600 13px monospace;
+}
+.page-step h3 {
+  margin: 3px 0 14px;
+}
+.page-step h4 {
+  font-size: 15px;
+}
+.page-step details {
+  margin: 20px 0;
+}
+.page-step summary {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #286344;
+  line-height: 1.7;
+}
+.page-study .teacher-note {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #26372d;
+}
+.connection-note {
+  background: #f4f8f4;
+  border-left: 3px solid #93c7a3;
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.original-example {
+  padding: 24px;
+  background: #fafbf9;
+  border: 1px solid #e8ede7;
+  border-radius: 12px;
+  margin: 24px 0;
+}
+.original-example p {
+  margin: 8px 0;
+}
+.original-example .arabic {
+  font-size: 36px;
+}
+.table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 22px 0;
+}
+.grammar-lab {
+  margin: 24px 0;
+}
+.grammar-lab .arabic {
+  white-space: normal;
+  min-width: 110px;
+  display: inline-block;
+  font-size: 27px;
+}
+.grammar-lab th {
+  font-size: 12px;
+  color: #46554b;
+}
+.grammar-lab td {
+  font-size: 14px;
+  line-height: 1.9;
+  min-width: 120px;
+}
+.grammar-table caption {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #5b6b60;
+}
+.page-controls {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 24px 0;
+}
+.page-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #536459;
+  font-size: 12px;
+  max-width: 45%;
+  flex: 1;
+}
+.page-controls select {
+  max-width: 100%;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #dce4de;
+  border-radius: 8px;
+}
+.book-meter {
+  padding: 20px 0;
+}
+.book-meter > div {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  margin-bottom: 13px;
+}
+.book-meter strong {
+  font-size: 27px;
+  letter-spacing: -1px;
+}
+.book-meter span {
+  font-size: 13px;
+  color: #5a6c60;
+}
+.book-meter progress {
+  width: 100%;
+  height: 9px;
+  border: 0;
+  border-radius: 99px;
+  overflow: hidden;
+  background: #edf2ed;
+  accent-color: #21834d;
+}
+.book-meter progress::-webkit-progress-bar {
+  background: #edf2ed;
+}
+.book-meter progress::-webkit-progress-value {
+  background: #21834d;
+  border-radius: 99px;
+}
+.page-practice {
+  padding: 0;
+  border: 0;
+  margin: 26px 0;
+}
+.page-practice legend {
+  line-height: 1.8;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.page-feedback {
+  padding: 18px;
+  background: #f2f7f3;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.source-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.8;
+  padding-top: 20px;
+}
+.source-check input {
+  margin-top: 6px;
+  min-width: 18px;
+  min-height: 18px;
+  accent-color: #167947;
+}
+.page-study-footer {
+  border-top: 1px solid #e5ece6;
+  margin-top: 28px;
+  padding-top: 20px;
+}
+.page-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 7px;
+  margin-top: 20px;
+}
+.page-tile {
+  border: 1px solid #dce6de;
+  background: #fff;
+  border-radius: 8px;
+  min-height: 44px;
+  font-size: 13px;
+  color: #3f5144;
+}
+.page-tile.studied {
+  background: #e6f4e9;
+  border-color: #8fc79d;
+  color: #165f35;
+}
+.page-directory {
+  padding: 20px;
+  border: 1px solid #e4eae5;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+.page-directory summary {
+  cursor: pointer;
+  font-size: 14px;
+}
+.pdf-details iframe {
+  display: block;
+  width: 100%;
+  height: 640px;
+  border: 1px solid #e0e5df;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+.pdf-details:not([open]) iframe {
+  display: none;
+}
+.picture-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.picture-cards details {
+  border: 1px solid #e1e7e2;
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
+}
+.picture-cards summary {
+  cursor: pointer;
+  font-size: 12px;
+  list-style: none;
+  color: #46554b;
+}
+.picture-object {
+  display: block;
+  aspect-ratio: 1.1;
+  background-image: url("./assets/vocabulary-objects.webp");
+  background-size: 300% 200%;
+  background-repeat: no-repeat;
+  margin-bottom: 14px;
+}
+.picture-cards .arabic {
+  font-size: 29px;
+}
+.picture-cards p {
+  font-size: 13px;
+}
+.install-nudge {
+  position: fixed;
+  z-index: 70;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(920px, calc(100% - 36px));
+  background: #fff;
+  border: 1px solid #cbdcd0;
+  box-shadow: 0 10px 50px #163b2020;
+  border-radius: 16px;
+  padding: 22px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.install-nudge strong {
+  font-size: 15px;
+}
+.install-nudge p {
+  margin: 7px 0 0;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #53635a;
+}
+.install-nudge > div {
+  flex: 1;
+}
+.install-nudge .btn {
+  white-space: nowrap;
+}
+.install-app-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: #167947;
+  color: white;
+  border-radius: 12px;
+  font:
+    30px "Noto Naskh Arabic",
+    serif;
+}
+.nudge-dismiss {
+  align-self: flex-start;
+  border: 0;
+  background: #f1f4f1;
+  color: #4d5c52;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 22px;
+}
+dialog#install-guide {
+  width: min(530px, calc(100% - 30px));
+  border: 1px solid #dce7df;
+  border-radius: 20px;
+  padding: 32px;
+  color: #253c2e;
+}
+dialog::backdrop {
+  background: #15251f80;
+}
+#install-guide p,
+#install-guide li {
+  font-size: 14px;
+  line-height: 1.9;
+}
+#install-guide ol {
+  padding-left: 22px;
+}
+#install-guide .dialog-close {
+  float: right;
+  font-size: 22px;
+}
+#install-guide h2 {
+  font-size: 30px;
+  letter-spacing: -1px;
+}
+#install-guide h3 {
+  font-size: 17px;
+}
+.book-dashboard {
+  margin-top: 24px;
+}
+.source-page {
+  margin-top: 12px;
+}
+.page-controls .btn:disabled,
+.page-study .btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.page-study .arabic {
+  color: #213d2b;
+}
+@media (max-width: 700px) {
+  .install-nudge {
+    bottom: calc(80px + env(safe-area-inset-bottom));
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 36px 1fr 26px;
+    gap: 10px;
+  }
+  .install-nudge .install-app-icon {
+    width: 36px;
+    height: 36px;
+  }
+  .install-nudge .btn {
+    grid-column: 2;
+    justify-self: start;
+    max-width: 100%;
+    font-size: 12px;
+  }
+  .install-nudge .nudge-dismiss {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .install-nudge strong {
+    font-size: 13px;
+  }
+  .install-nudge p {
+    font-size: 11px;
+  }
+  .page-controls {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .page-controls label {
+    order: -1;
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .page-controls .btn {
+    flex: 1;
+    font-size: 12px;
+    padding: 12px 10px;
+  }
+  .page-step {
+    grid-template-columns: 25px minmax(0, 1fr);
+    gap: 10px;
+  }
+  .step-number {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+  .page-study {
+    padding: 20px 14px;
+  }
+  .page-study-head h2 {
+    font-size: 25px;
+  }
+  .page-study .teacher-note {
+    font-size: 17px;
+  }
+  .page-study p {
+    font-size: 14px;
+  }
+  .page-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .learning-tabs button {
+    padding: 12px;
+    font-size: 12px;
+  }
+  .picture-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pdf-details iframe {
+    height: 420px;
+  }
+  .page-study .original-example {
+    padding: 16px;
+  }
+  .page-study .original-example .arabic {
+    font-size: 28px;
+  }
+  .mobilebar button {
+    font-size: 9px;
+    min-width: 54px;
+  }
+  .grammar-table td {
+    padding: 9px;
+  }
+}
+@media print {
+  .install-nudge,
+  .learning-tabs {
+    display: none !important;
+  }
+}
+.spatial-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.spatial-cards figure {
+  margin: 0;
+  border: 1px solid #e1e8e2;
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+}
+.spatial-object {
+  display: block;
+  aspect-ratio: 1;
+  background-image: url("./assets/spatial-relationships.webp");
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+}
+.spatial-cards .arabic {
+  font-size: 27px;
+}
+.spatial-cards figcaption p {
+  font-size: 13px;
+  margin: 8px 0;
+}
+.spatial-cards details {
+  text-align: left;
+  font-size: 13px;
+}
+.spatial-lab > p {
+  font-size: 14px;
+  line-height: 1.85;
+}
+@media (max-width: 700px) {
+  .spatial-cards {
+    grid-template-columns: 1fr;
+  }
+  .spatial-object {
+    max-width: 300px;
+    margin: auto;
+  }
+  .spatial-cards .arabic {
+    font-size: 32px;
+  }
+}

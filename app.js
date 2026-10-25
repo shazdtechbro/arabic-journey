@@ -1,3 +1,19 @@
+import {
+  bookPages,
+  pagesForLesson,
+  bookProgress,
+  markPage,
+  pagePractice,
+} from "./book.js";
+import {
+  bookView,
+  lessonPages,
+  bookMeter,
+  pictureLab,
+  grammarTables,
+  spatialLab,
+} from "./book-ui.js";
+import { installNudge, openInstallGuide, isStandalone } from "./install-ui.js";
 import { questions, reviewIndices } from "./assessment.js";
 import { guides } from "./guides.js";
 import { units, reviewDays, sourceLinks } from "./data.js";
@@ -31,6 +47,9 @@ let state = loadProgress(localStorage),
   graded = false,
   installEvent = null,
   toastTimer;
+let activeBookPage = 1,
+  lessonMode = "pages",
+  pageChecks = {};
 const persist = () => {
   try {
     saveProgress(localStorage, state);
@@ -53,13 +72,15 @@ function notify(message) {
 }
 function setView(v, day) {
   if (day && !unlocked(state, day)) {
-    notify("Pass the previous day to unlock this lesson.");
+    notify("Choose a valid learning day.");
     return;
   }
   view = v;
   history.pushState({}, "", `#${v}${day ? "/" + day : ""}`);
   if (day) {
     activeDay = day;
+    lessonMode = "pages";
+    if (day <= 23) activeBookPage = pagesForLesson(day)[0].number;
     wordOrder = [];
     answers = {};
     graded = false;
@@ -75,10 +96,12 @@ const icon = {
   progress: "▥",
   about: "ⓘ",
   certificate: "✧",
+  book: "▣",
 };
 const nav = [
   ["dashboard", "Overview"],
   ["learn", "Lessons"],
+  ["book", "Book companion"],
   ["progress", "My progress"],
   ["certificate", "Certificate"],
   ["about", "About & credits"],
@@ -102,7 +125,7 @@ function layout(body) {
     .join("")}</nav>`;
 }
 function home() {
-  return `<div class="landing-grid"><section class="hero"><span class="eyebrow">ONE LESSON. EVERY DAY. A NEW BEGINNING.</span><h1>Your first 30 days<br/>of Arabic<br/><em>start here.</em></h1><p>Take your first 30 days of Arabic seriously. One lesson a day. Small steps. Real understanding.</p><div class="btnrow"><button class="btn btn-primary" data-action="start">Start learning →</button><button class="btn btn-outline" data-view="learn">See the journey</button></div><p class="muted">Free · No account · Your progress stays with you</p></section><div class="preview" aria-label="Illustrative dashboard preview"><span class="eyebrow">A LOOK INSIDE · EXAMPLE DASHBOARD</span><h2>One step closer.</h2><p class="muted">Day 5 · Whose book is it?</p><div class="phrase"><span class="arabic" lang="ar" dir="rtl">كِتَابُ الطَّالِبِ</span><p>The student’s book</p></div><div class="progressbar"><div style="width:13%"></div></div><p class="muted">4 of 30 learning days complete · Sample data</p><div class="mini-calendar">${Array.from({ length: 35 }, (_, i) => `<i class="heatcell ${[22, 23, 24, 25].includes(i) ? "level3" : ""}"></i>`).join("")}</div><p class="muted">Your effort, made visible. No streak for simply opening the app.</p></div></div><div class="sectionhead"><div><span class="eyebrow">A MONTH WITH DIRECTION</span><h2>Build understanding. Then make it yours.</h2><p>A structured companion to Madinah Arabic Book 1 by Dr. V. Abdur-Raheem.</p></div></div><div class="coursegrid">${[
+  return `<div class="landing-grid"><section class="hero"><span class="eyebrow">ONE LESSON. EVERY DAY. A NEW BEGINNING.</span><h1>Your first 30 days<br/>of Arabic<br/><em>start here.</em></h1><p>Take your first 30 days of Arabic seriously. One lesson a day. Small steps. Real understanding.</p><div class="btnrow"><button class="btn btn-primary" data-action="start">Start learning →</button><button class="btn btn-outline" data-view="learn">See the journey</button></div><p class="muted">Free · No account · Your progress stays with you</p></section><div class="preview" aria-label="Illustrative dashboard preview"><span class="eyebrow">A LOOK INSIDE · EXAMPLE DASHBOARD</span><h2>One step closer.</h2><p class="muted">Day 5 · Whose book is it?</p><div class="phrase"><span class="arabic" lang="ar" dir="rtl">كِتَابُ الطَّالِبِ</span><p>The student’s book</p></div><div class="progressbar"><div style="width:13%"></div></div><p class="muted">4 of 30 learning days complete · Sample data</p><div class="mini-calendar">${Array.from({ length: 35 }, (_, i) => `<i class="heatcell ${[22, 23, 24, 25].includes(i) ? "level3" : ""}"></i>`).join("")}</div><p class="muted">Your effort, made visible. No streak for simply opening the app.</p></div></div><div class="sectionhead"><div><span class="eyebrow">A MONTH WITH DIRECTION</span><h2>Build understanding. Then make it yours.</h2><p>A structured companion to Madinah Arabic Book 1 by Dr. V. Abdur-Raheem. Study original explanations alongside a page-by-page guide to the authorized textbook.</p></div></div><div class="coursegrid">${[
     [
       "01–23",
       "Learn the foundations",
@@ -197,7 +220,7 @@ function nextDay() {
 function dashboard() {
   const n = nextDay(),
     u = units[n - 1];
-  return `<div class="sectionhead" style="margin-top:0"><div><span class="eyebrow">YOUR LEARNING HOME</span><h2 style="font-size:31px;margin-top:8px">As-salāmu ʿalaykum, ${safe(state.name?.split(" ")[0] || "learner")} 👋</h2><p>Every small step counts. ${Object.keys(state.completed).filter((n) => +n <= 23).length}/23 foundations · ${state.attempts.filter((a) => a.passed).length} quizzes passed.${state.reminder ? ` Your study time: ${safe(state.reminder)}.` : ""}</p></div></div>${stats()}<div class="sectionhead"><div><h2>Your 30-day path</h2><p>${completedCount()} days completed. Pick up where you left off.</p></div><button class="textlink" data-view="learn">View all days →</button></div><section class="hero" style="padding:28px 31px"><span class="eyebrow">${eligible(state) ? "JOURNEY COMPLETE" : "UP NEXT · DAY " + String(n).padStart(2, "0")}</span><h1 style="font-size:32px;letter-spacing:-1px;margin:12px 0">${eligible(state) ? "A foundation worth building on." : safe(u ? u[1] : reviewDays[n - 24]?.[0] || "Graduation")}</h1><p style="margin-bottom:16px">${safe(u ? u[4] : reviewDays[n - 24]?.[1] || "You made it!")}</p>${eligible(state) ? '<button class="btn btn-primary" data-view="certificate">Celebrate your graduation →</button>' : `<button class="btn btn-primary" data-day="${n}">${state.completed[n] ? "Review this day" : "Continue learning"} →</button>`}</section><div class="sectionhead"><div><h2>Consistency, visualised</h2><p>Your study days, one green square at a time.</p></div></div><div class="panel"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:14px">Your contribution calendar</b><span class="eyebrow">${activityDates().length} ACTIVE DAYS</span></div>${heatmap()}</div><div class="sectionhead"><div><h2>Small wins, remembered</h2><p>${state.reason ? `Your reason: ${safe(state.reason)}` : "Each completed lesson is another piece of your foundation."}</p></div></div><div class="coursegrid">${
+  return `<div class="sectionhead" style="margin-top:0"><div><span class="eyebrow">YOUR LEARNING HOME</span><h2 style="font-size:31px;margin-top:8px">As-salāmu ʿalaykum, ${safe(state.name?.split(" ")[0] || "learner")} 👋</h2><p>Every small step counts. ${Object.keys(state.completed).filter((n) => +n <= 23).length}/23 foundation quizzes · ${state.attempts.filter((a) => a.passed).length} quizzes passed.${state.reminder ? ` Your study time: ${safe(state.reminder)}.` : ""}</p></div></div>${stats()}<section class="panel book-dashboard"><span class="eyebrow">LEARN THE BOOK, PAGE BY PAGE</span><h3>Understanding and coverage, together.</h3>${bookMeter(state)}<p class="muted">Page study and quiz completion are separate. Every lesson and page is open.</p><button class="btn btn-outline" data-view="book">Open the book companion →</button></section><div class="sectionhead"><div><h2>Your 30-day path</h2><p>${completedCount()} days completed. Pick up where you left off.</p></div><button class="textlink" data-view="learn">View all days →</button></div><section class="hero" style="padding:28px 31px"><span class="eyebrow">${eligible(state) ? "JOURNEY COMPLETE" : "UP NEXT · DAY " + String(n).padStart(2, "0")}</span><h1 style="font-size:32px;letter-spacing:-1px;margin:12px 0">${eligible(state) ? "A foundation worth building on." : safe(u ? u[1] : reviewDays[n - 24]?.[0] || "Graduation")}</h1><p style="margin-bottom:16px">${safe(u ? u[4] : reviewDays[n - 24]?.[1] || "You made it!")}</p>${eligible(state) ? '<button class="btn btn-primary" data-view="certificate">Celebrate your graduation →</button>' : `<button class="btn btn-primary" data-day="${n}">${state.completed[n] ? "Review this day" : "Continue learning"} →</button>`}</section><div class="sectionhead"><div><h2>Consistency, visualised</h2><p>Your study days, one green square at a time.</p></div></div><div class="panel"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:14px">Your contribution calendar</b><span class="eyebrow">${activityDates().length} ACTIVE DAYS</span></div>${heatmap()}</div><div class="sectionhead"><div><h2>Small wins, remembered</h2><p>${state.reason ? `Your reason: ${safe(state.reason)}` : "Each completed lesson is another piece of your foundation."}</p></div></div><div class="coursegrid">${
     Object.keys(state.completed)
       .slice(-3)
       .map((n) => courseCard(+n))
@@ -209,10 +232,10 @@ function courseCard(n) {
   const u = units[n - 1],
     r = reviewDays[n - 24],
     done = !!state.completed[n];
-  return `<button ${!unlocked(state, n) ? 'disabled aria-disabled="true"' : ""} class="coursecard ${done ? "done" : ""}" data-day="${n}"><span class="day">DAY ${String(n).padStart(2, "0")} ${n > 23 ? '<span class="reviewtag">REVIEW</span>' : ""}</span><h3>${safe(u ? u[1] : r[0])}</h3>${u ? `<div class="arabic" lang="ar">${safe(u[2])}</div>` : `<p class="muted">${safe(r[1])}</p>`}<div class="bottom"><span>${done ? "Completed" : !unlocked(state, n) ? "Locked · finish previous day" : n > 23 ? "Revision & practice" : "Learn & practise"}</span><span class="check">${done ? "✓" : "→"}</span></div></button>`;
+  return `<button  class="coursecard ${done ? "done" : ""}" data-day="${n}"><span class="day">DAY ${String(n).padStart(2, "0")} ${n > 23 ? '<span class="reviewtag">REVIEW</span>' : ""}</span><h3>${safe(u ? u[1] : r[0])}</h3>${u ? `<div class="arabic" lang="ar">${safe(u[2])}</div>` : `<p class="muted">${safe(r[1])}</p>`}<div class="bottom"><span>${done ? (n <= 23 ? `Quiz passed · ${bookProgress(state, n).done}/${bookProgress(state, n).total} pages` : "Revision passed") : n > 23 ? "Revision & practice" : `${bookProgress(state, n).done}/${bookProgress(state, n).total} pages studied`}</span><span class="check">${done ? "✓" : "→"}</span></div></button>`;
 }
 function learn() {
-  return `<div class="sectionhead" style="margin-top:0"><div><span class="eyebrow">THE CURRICULUM</span><h2 style="font-size:33px;margin-top:8px">30 days. A stronger foundation.</h2><p>Original companion explanations mapped to Madinah Arabic Book 1. Pass each day to unlock the next; completed lessons remain available for review.</p></div></div><div class="panel" style="margin-bottom:22px"><div style="display:flex;justify-content:space-between;margin-bottom:12px"><b style="font-size:12px">Overall progress</b><b style="font-size:12px;color:#197e4a">${completedCount()}/30</b></div><div class="progressbar"><div style="width:${(completedCount() / 30) * 100}%"></div></div></div><div class="sectionhead"><div><h2>Foundation · Days 01–23</h2><p>One concept at a time, with clear examples and a short quiz.</p></div></div><div class="coursegrid">${Array.from({ length: 23 }, (_, i) => courseCard(i + 1)).join("")}</div><div class="sectionhead"><div><h2>Consolidation · Days 24–30</h2><p>Revisit the rules until you can use them confidently.</p></div></div><div class="coursegrid">${Array.from({ length: 7 }, (_, i) => courseCard(i + 24)).join("")}</div>`;
+  return `<div class="sectionhead" style="margin-top:0"><div><span class="eyebrow">THE CURRICULUM</span><h2 style="font-size:33px;margin-top:8px">30 days. A stronger foundation.</h2><p>Original companion explanations mapped to Madinah Arabic Book 1. Every lesson is open. Study in order or jump to any topic; your progress records what you actually complete.</p></div></div><div class="panel" style="margin-bottom:22px"><div style="display:flex;justify-content:space-between;margin-bottom:12px"><b style="font-size:12px">Overall progress</b><b style="font-size:12px;color:#197e4a">${completedCount()}/30</b></div><div class="progressbar"><div style="width:${(completedCount() / 30) * 100}%"></div></div></div><div class="sectionhead"><div><h2>Foundation · Days 01–23</h2><p>One concept at a time, with clear examples and a short quiz.</p></div></div><div class="coursegrid">${Array.from({ length: 23 }, (_, i) => courseCard(i + 1)).join("")}</div><div class="sectionhead"><div><h2>Consolidation · Days 24–30</h2><p>Revisit the rules until you can use them confidently.</p></div></div><div class="coursegrid">${Array.from({ length: 7 }, (_, i) => courseCard(i + 24)).join("")}</div>`;
 }
 function scaffolds(n) {
   const u = units[n - 1],
@@ -240,6 +263,11 @@ function reviewScaffolds(n) {
     .join("")}</section>`;
 }
 function lesson() {
+  if (activeDay > 23) return conceptLesson();
+  const p = bookProgress(state, activeDay);
+  return `<button class="back" data-view="learn">← Back to all lessons</button><header class="lessonhead"><span class="eyebrow">LESSON ${activeDay} · ${p.done}/${p.total} SOURCE PAGES STUDIED</span><h1>${safe(units[activeDay - 1][1])}</h1><p>Learn the idea. Work through the author’s pages. Return whenever you need.</p></header><div class="learning-tabs" role="tablist" aria-label="Learning approach"><button role="tab" tabindex="${lessonMode === "pages" ? 0 : -1}" aria-selected="${lessonMode === "pages"}" aria-controls="learning-panel" id="pages-tab" data-lesson-mode="pages">Study the pages</button><button role="tab" tabindex="${lessonMode === "concept" ? 0 : -1}" aria-selected="${lessonMode === "concept"}" aria-controls="learning-panel" id="concept-tab" data-lesson-mode="concept">Concepts & assessment</button></div><div role="tabpanel" id="learning-panel" aria-labelledby="${lessonMode === "pages" ? "pages-tab" : "concept-tab"}">${lessonMode === "pages" ? lessonPages(state, activeDay, activeBookPage, pageChecks) : conceptLesson() + `<section class="panel">${grammarTables(activeDay)}</section>` + (activeDay <= 3 ? pictureLab() : "") + ([5, 8].includes(activeDay) ? spatialLab() : "")}</div>`;
+}
+function conceptLesson() {
   const n = activeDay,
     u = units[n - 1],
     r = reviewDays[n - 24],
@@ -248,7 +276,7 @@ function lesson() {
     passed = score >= Math.ceil(qs.length * 0.8),
     done = !!state.completed[n];
   const topic = u ? u[1] : r[0];
-  return `<button class="back" data-view="learn">← Back to all lessons</button><div class="lessonhead"><span class="eyebrow">DAY ${String(n).padStart(2, "0")} OF 30 · ${n <= 23 ? "FOUNDATION" : "REVIEW"}</span><h1>${safe(topic)}</h1><p>${safe(u ? u[4] : r[1])}</p></div><div class="lessonlayout"><div class="lessonbody">${u ? `<section class="panel"><span class="eyebrow">TODAY'S IDEA</span><div class="phrase">${arab(u[2])}<div class="meaning">${safe(u[3])}</div></div><h3>Let's make it simple</h3><p>${safe(u[5])}</p><div class="aha"><b style="color:#14713f;font-size:12px">✦ YOUR AHA MOMENT</b><p>${safe(u[6])}</p></div></section><section class="panel"><span class="eyebrow">SEE IT IN CONTEXT</span><h3>Three examples to remember</h3><div class="examples">${u[7].map(([a, b]) => `<div class="example">${arab(a)}<span>${safe(b)}</span></div>`).join("")}</div><p>Say each example aloud. Then cover the English and explain it yourself.</p></section>` : `<section class="panel"><span class="eyebrow">REVISION LAB</span><h3>Make yesterday's knowledge useful today.</h3><p>${safe(r[1])} The questions below draw from earlier days. Before selecting an answer, explain the grammar rule in your own words.</p><div class="aha"><b style="color:#14713f;font-size:12px">✦ LEARNING METHOD</b><p>Recall first, check second, and explain the correction. Repeating a quiz is useful when you understand why the answer works.</p></div></section>`}${u ? scaffolds(n) : reviewScaffolds(n)}<section class="panel" id="quiz"><span class="eyebrow">CHECK YOUR UNDERSTANDING</span><h3>${n === 30 ? "Final knowledge check" : "A short mastery quiz"}</h3><p>Answer every question. Your result comes with corrections, so you can learn from mistakes.</p>${qs
+  return `<button class="back" data-view="learn">← Back to all lessons</button><div class="lessonhead concept-heading"><span class="eyebrow">DAY ${String(n).padStart(2, "0")} OF 30 · ${n <= 23 ? "FOUNDATION" : "REVIEW"}</span><${u ? "h2" : "h1"}>${safe(topic)}</${u ? "h2" : "h1"}><p>${safe(u ? u[4] : r[1])}</p></div><div class="lessonlayout"><div class="lessonbody">${u ? `<section class="panel"><span class="eyebrow">TODAY'S IDEA</span><div class="phrase">${arab(u[2])}<div class="meaning">${safe(u[3])}</div></div><h3>Let's make it simple</h3><p>${safe(u[5])}</p><div class="aha"><b style="color:#14713f;font-size:12px">✦ YOUR AHA MOMENT</b><p>${safe(u[6])}</p></div></section><section class="panel"><span class="eyebrow">SEE IT IN CONTEXT</span><h3>Three examples to remember</h3><div class="examples">${u[7].map(([a, b]) => `<div class="example">${arab(a)}<span>${safe(b)}</span></div>`).join("")}</div><p>Say each example aloud. Then cover the English and explain it yourself.</p></section>` : `<section class="panel"><span class="eyebrow">REVISION LAB</span><h3>Make yesterday's knowledge useful today.</h3><p>${safe(r[1])} The questions below draw from earlier days. Before selecting an answer, explain the grammar rule in your own words.</p><div class="aha"><b style="color:#14713f;font-size:12px">✦ LEARNING METHOD</b><p>Recall first, check second, and explain the correction. Repeating a quiz is useful when you understand why the answer works.</p></div></section>`}${u ? scaffolds(n) : reviewScaffolds(n)}<section class="panel" id="quiz"><span class="eyebrow">CHECK YOUR UNDERSTANDING</span><h3>${n === 30 ? "Final knowledge check" : "A short mastery quiz"}</h3><p>Answer every question. Your result comes with corrections, so you can learn from mistakes.</p>${qs
     .map((q, i) => {
       const order = (q.options || []).map(
         (_, j) =>
@@ -270,7 +298,7 @@ function progress() {
   ]
     .map(
       ([n, t]) =>
-        `<div class="milestone" style="border-bottom:1px solid #eef1ee;padding:13px 0"><div class="num">${state.completed[n] ? "✓" : "○"}</div><div><b>${t}</b><p class="muted" style="margin:4px 0">${state.completed[n] ? "Achieved" : "Keep studying to unlock"}</p></div></div>`,
+        `<div class="milestone" style="border-bottom:1px solid #eef1ee;padding:13px 0"><div class="num">${state.completed[n] ? "✓" : "○"}</div><div><b>${t}</b><p class="muted" style="margin:4px 0">${state.completed[n] ? "Achieved" : "Keep practising toward this milestone"}</p></div></div>`,
     )
     .join(
       "",
@@ -287,6 +315,14 @@ function about() {
 function installBanner() {
   return `<div class="install-banner no-print"><div><b style="font-size:13px">📱 Keep Arabic Journey on your home screen</b><p>Install the app for one-tap access and offline learning after your first visit.</p></div><button class="btn btn-outline" data-action="install">How to install ↗</button></div>`;
 }
+function book() {
+  return bookView(state, activeBookPage, pageChecks);
+}
+function updateInstallNudge() {
+  document.querySelector(".install-nudge")?.remove();
+  if (view === "home")
+    document.body.insertAdjacentHTML("beforeend", installNudge(!!installEvent));
+}
 function render() {
   document.title = `${view === "lesson" ? `Day ${activeDay}` : view[0].toUpperCase() + view.slice(1)} · Arabic Journey`;
   document.getElementById("app").innerHTML = layout(
@@ -299,8 +335,10 @@ function render() {
       certificate,
       about,
       onboarding,
+      book,
     }[view]?.() || home(),
   );
+  updateInstallNudge();
 }
 function complete(n, score, total) {
   state = record(state, n, { score, total, passed: true });
@@ -438,14 +476,17 @@ document.addEventListener("click", async (e) => {
       break;
     case "install":
       if (installEvent) {
-        installEvent.prompt();
-        await installEvent.userChoice;
+        const prompt = installEvent;
         installEvent = null;
-      } else {
-        alert(
-          "On iPhone: open in Safari, tap Share, then Add to Home Screen.\n\nOn Android: open in Chrome, tap the menu (⋮), then Install app or Add to Home screen.\n\nOn desktop Chrome/Edge: use the install icon in the address bar if available.",
-        );
-      }
+        await prompt.prompt();
+        const choice = await prompt.userChoice;
+        if (choice.outcome === "accepted")
+          notify(
+            "Installation requested. Your browser will finish adding the app.",
+          );
+        else notify("You can install later from the browser menu.");
+        updateInstallNudge();
+      } else openInstallGuide();
       break;
   }
 });
@@ -460,6 +501,7 @@ document.addEventListener("change", (e) => {
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   installEvent = e;
+  updateInstallNudge();
 });
 if ("serviceWorker" in navigator && location.protocol !== "file:")
   window.addEventListener("load", () =>
@@ -622,7 +664,7 @@ document.addEventListener("click", (e) => {
   }
 });
 window.addEventListener("popstate", () => {
-  const [v, d] = location.hash.slice(1).split("/");
+  const [v, d, page] = location.hash.slice(1).split("/");
   if (
     [
       "home",
@@ -633,12 +675,23 @@ window.addEventListener("popstate", () => {
       "about",
       "lesson",
       "onboarding",
+      "book",
     ].includes(v)
   ) {
     if (v === "lesson" && !unlocked(state, +d)) return;
     view = v;
     if (d) {
-      activeDay = +d;
+      if (v === "book") {
+        activeBookPage = +d >= 1 && +d <= 128 ? +d : 1;
+      } else {
+        activeDay = +d;
+        lessonMode = "pages";
+        if (activeDay <= 23)
+          activeBookPage =
+            page && pagesForLesson(activeDay).some((p) => p.number === +page)
+              ? +page
+              : pagesForLesson(activeDay)[0].number;
+      }
       answers = {};
       graded = false;
     }
@@ -648,3 +701,113 @@ window.addEventListener("popstate", () => {
 });
 
 if (location.hash) window.dispatchEvent(new PopStateEvent("popstate"));
+
+function navigateBookPage(number) {
+  if (!Number.isInteger(number) || number < 1 || number > 128) return;
+  activeBookPage = number;
+  if (
+    view === "lesson" &&
+    !pagesForLesson(activeDay).some((p) => p.number === number)
+  )
+    view = "book";
+  history.pushState(
+    {},
+    "",
+    view === "lesson" ? `#lesson/${activeDay}/${number}` : `#book/${number}`,
+  );
+  render();
+  document
+    .getElementById("page-title")
+    ?.scrollIntoView({ block: "start", behavior: "instant" });
+}
+document.addEventListener("click", (e) => {
+  const mode = e.target.closest("[data-lesson-mode]");
+  if (mode) {
+    lessonMode = mode.dataset.lessonMode;
+    wordOrder = [];
+    render();
+    document
+      .getElementById(lessonMode === "pages" ? "pages-tab" : "concept-tab")
+      ?.focus();
+  }
+  const page = e.target.closest("[data-book-page]");
+  if (page) navigateBookPage(+page.dataset.bookPage);
+  const mark = e.target.closest("[data-mark-page]");
+  if (mark) {
+    const n = +mark.dataset.markPage,
+      q = pagePractice(bookPages[n - 1]),
+      checks = pageChecks[n] || {};
+    if (
+      q &&
+      (!checks.source || checks.answer !== q.correct) &&
+      !state.pages?.[n]
+    )
+      return;
+    state = markPage(state, n);
+    persist();
+    render();
+    document.querySelector("[data-mark-page]")?.focus();
+    notify("Page study saved. Quiz and streak records are unchanged.");
+  }
+  if (e.target.closest("[data-dismiss-install]")) {
+    try {
+      sessionStorage.setItem("arabic-journey-install-dismissed", "yes");
+    } catch {}
+    updateInstallNudge();
+  }
+});
+document.addEventListener("change", (e) => {
+  if (e.target.matches(".book-page-select")) navigateBookPage(+e.target.value);
+  if (e.target.matches("[data-page-answer]")) {
+    const n = +e.target.dataset.pageAnswer;
+    pageChecks[n] = { ...pageChecks[n], answer: e.target.value };
+    render();
+    document.querySelector(`input[data-page-answer="${n}"]:checked`)?.focus();
+  }
+  if (e.target.matches("[data-source-check]")) {
+    const n = +e.target.dataset.sourceCheck;
+    pageChecks[n] = { ...pageChecks[n], source: e.target.checked };
+    const q = pagePractice(bookPages[n - 1]),
+      button = document.querySelector("[data-mark-page]");
+    if (button)
+      button.disabled =
+        !state.pages?.[n] &&
+        !(e.target.checked && pageChecks[n].answer === q.correct);
+  }
+});
+document.addEventListener(
+  "toggle",
+  (e) => {
+    if (e.target.matches(".pdf-details") && e.target.open) {
+      const frame = e.target.querySelector("iframe");
+      if (!frame.src) frame.src = frame.dataset.pdfSrc;
+    }
+  },
+  true,
+);
+window.addEventListener("appinstalled", () => {
+  installEvent = null;
+  document.querySelector(".install-nudge")?.remove();
+  notify("Arabic Journey was added to your device.");
+});
+document.addEventListener("keydown", (e) => {
+  if (
+    !e.target.matches("[data-lesson-mode]") ||
+    !["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)
+  )
+    return;
+  e.preventDefault();
+  lessonMode =
+    e.key === "Home"
+      ? "pages"
+      : e.key === "End"
+        ? "concept"
+        : lessonMode === "pages"
+          ? "concept"
+          : "pages";
+  wordOrder = [];
+  render();
+  document
+    .getElementById(lessonMode === "pages" ? "pages-tab" : "concept-tab")
+    ?.focus();
+});

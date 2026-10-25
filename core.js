@@ -28,6 +28,7 @@ export const blank = () => ({
   reason: "",
   reminder: "",
   experience: "new",
+  pages: {},
 });
 export function streaks(activity, now = dateKey()) {
   const days = Object.keys(activity)
@@ -61,10 +62,9 @@ export function scoreQuiz(qs, answers) {
     passed: correct >= Math.ceil(qs.length * 0.8),
   };
 }
-export const unlocked = (s, n) =>
-  n >= 1 && n <= 30 && (n === 1 || !!s.completed[n - 1]);
+export const unlocked = (s, n) => Number.isInteger(n) && n >= 1 && n <= 30;
 export function record(s, n, result, now = new Date()) {
-  if (!unlocked(s, n)) throw Error("Complete the previous day first");
+  if (!unlocked(s, n)) throw Error("Invalid learning day");
   const date = dateKey(now, s.timeZone);
   const next = structuredClone(s);
   next.attempts.push({ day: n, ...result, at: now.toISOString() });
@@ -135,8 +135,7 @@ export function validateBackup(obj) {
     )
       throw Error("Invalid result");
     ordinal(v.date);
-    if (!s.activity[v.date] || (+k > 1 && !s.completed[+k - 1]))
-      throw Error("Invalid sequence");
+    if (!s.activity[v.date]) throw Error("Invalid sequence");
   }
   const expected = {};
   for (const v of Object.values(s.completed))
@@ -146,8 +145,20 @@ export function validateBackup(obj) {
     JSON.stringify(Object.entries(s.activity).sort())
   )
     throw Error("Activity does not match completions");
+  const pages = s.pages || {};
+  for (const [key, value] of Object.entries(pages)) {
+    if (
+      !Number.isInteger(+key) ||
+      +key < 1 ||
+      +key > 128 ||
+      !value ||
+      !Number.isFinite(Date.parse(value.at))
+    )
+      throw Error("Invalid page progress");
+  }
   return {
     ...blank(),
+    pages,
     name: s.name,
     started: !!s.started,
     completed: s.completed,

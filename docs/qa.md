@@ -1,6 +1,6 @@
 # Quality assurance
 
-The browser journey uses an isolated profile and test name. It deliberately fails and retakes Day 1, passes all 30 days through the actual UI, verifies sequential unlocking, downloads the certificate and backup, restores the backup, changes to a 390px viewport, and reopens a completed lesson offline. Synthetic test records are never included in production learner storage.
+The browser journey uses an isolated profile and test name. It deliberately fails and retakes Day 1, passes all 30 days through the actual UI, verifies unrestricted lesson access, downloads the certificate and backup, restores the backup, changes to a 390px viewport, and reopens a completed lesson offline. Synthetic test records are never included in production learner storage.
 
 Automated logic checks cover the 80% threshold, failed attempts, duplicate completion, distinct-date activity, longest/current streaks, missed dates, yesterday grace, DST/leap/year boundaries, storage round-trips, malformed backups and all-30 graduation eligibility. Content checks verify 23 mapped lessons, seven revision days, distinct answer choices, feedback and final-assessment coverage.
 
